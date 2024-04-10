@@ -96,7 +96,7 @@ class BaseMinecart extends Living {
             if (!isset($viewer->getViewers()[$player->getId()])) {
                 $player->spawnTo($viewer);
             }
-
+            
             $pk = new SetActorLinkPacket();
             $pk->link = new EntityLink($this->getId(), $player->getId(), $type, true, true);
             NetworkBroadcastUtils::broadcastPackets([$viewer], [$pk]);
