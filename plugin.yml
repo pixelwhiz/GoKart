@@ -1,7 +1,7 @@
 ---
 name: minecart
-version: 0.0.1
+version: 1.0.0
 main: pixelwhiz\minecart\Main
-api: 5.11.0
+api: 5.0.0
 src-namespace-prefix: pixelwhiz\minecart
 ...

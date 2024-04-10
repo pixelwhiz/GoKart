@@ -165,6 +165,7 @@ class Main extends PluginBase implements Listener {
         }
     }
 
+
     public function onSneak(PlayerToggleSneakEvent $event)
     {
         $player = $event->getPlayer();
