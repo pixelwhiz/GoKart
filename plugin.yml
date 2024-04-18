@@ -3,5 +3,6 @@ name: minecart
 version: 1.0.0
 main: pixelwhiz\minecart\Main
 api: 5.0.0
+author: pixelwhiz
 src-namespace-prefix: pixelwhiz\minecart
 ...
