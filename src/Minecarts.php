@@ -22,6 +22,9 @@ class Minecarts {
 
     public static self $instance;
 
+    public static array $isMoving = [];
+    public static array $isRecharging = [];
+
     public static function init() : void {
         self::$instance = new self();
     }
@@ -45,6 +48,8 @@ class Minecarts {
         $energy = $namedTag->getTag("Energy") ? $namedTag->getFloat("Energy") : 100;
         $entity::$energy = $energy;
 
+        self::$isMoving[$entity->getId()] = false;
+
         $player->getInventory()->setItemInHand(VanillaItems::AIR());
 
         $link = new SetActorLinkPacket();
@@ -62,6 +67,9 @@ class Minecarts {
         } elseif ($isClose === true) {
             $entity->close();
         }
+
+        unset(self::$isMoving[$entity->getId()]);
+
         $item = VanillaItems::MINECART();
         $entity->setTargetEntity(null);
         $player->setTargetEntity(null);
@@ -92,6 +100,20 @@ class Minecarts {
         $player = $entity->getTargetEntity();
         if (!$player instanceof Player) return null;
         return $player;
+    }
+
+    public function isMoving(Minecart $entity) : bool {
+        if (!isset(self::$isMoving[$entity->getId()]) || self::$isMoving[$entity->getId()] === false) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isRecharging(Minecart $entity) : bool {
+        if (!isset(self::$isRecharging[$entity->getId()]) || self::$isRecharging[$entity->getId()] === false) {
+            return false;
+        }
+        return true;
     }
 
 }

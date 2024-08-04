@@ -2,7 +2,9 @@
 
 namespace pixelwhiz\minecart\utils;
 
+use onebone\economyapi\EconomyAPI;
 use pixelwhiz\minecart\entity\Minecart;
+use pixelwhiz\minecart\Main;
 use pixelwhiz\minecart\Minecarts;
 use pocketmine\block\Air;
 use pocketmine\block\Carpet;
@@ -12,6 +14,8 @@ use pocketmine\block\Stair;
 use pocketmine\block\Water;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
+use pocketmine\scheduler\Task;
+use pocketmine\utils\TextFormat;
 use pocketmine\world\particle\SmokeParticle;
 use pocketmine\world\sound\FizzSound;
 
@@ -25,7 +29,6 @@ class Controller {
 
         $pos = new Vector3($entity->getLocation()->getFloorX(), $entity->getLocation()->getFloorY() - 0.25, $entity->getLocation()->getFloorZ());
         $block = $entity->getWorld()->getBlock($pos);
-
 
         if ((int)$entity->getEnergy() === 0) {
             $motion['y'] = 0;
@@ -218,8 +221,14 @@ class Controller {
         return $vector;
     }
 
+    public static function refillEnergy(Minecart $entity, int $amount, int $price) {
+        $player = $entity->getTargetEntity();
+        if (!$player instanceof Player) return false;
+        Main::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillScheduler($entity, $amount, $price), 20);
+        return true;
+    }
 
-    public static function updateFuel(Minecart $entity, array $startPos) : bool {
+    public static function updateEnergy(Minecart $entity, array $startPos) : bool {
         if (is_null($startPos["x"]) || is_null($startPos["y"]) || is_null($startPos["z"])) {
             return false;
         }
@@ -233,4 +242,55 @@ class Controller {
     }
 
 
+}
+
+class RefillScheduler extends Task {
+
+    private Minecart $entity;
+    private int $amount;
+    private int $price;
+    private int $currentEnergy;
+
+    public function __construct(Minecart $entity, int $amount, int $price) {
+        $this->entity = $entity;
+        $this->amount = $amount;
+        $this->price = $price;
+        $this->currentEnergy = (int)$entity->getEnergy();
+    }
+
+    public function onRun(): void
+    {
+        $player = $this->entity->getTargetEntity();
+        if (!$player instanceof Player) return;
+        $entity = $this->entity;
+        $amount = $this->amount;
+        $price = $this->price;
+        Minecarts::$isRecharging[$entity->getId()] = true;
+
+        if (Minecarts::getInstance()->isMoving($entity) === true) {
+            $player->sendTitle(TextFormat::BOLD . TextFormat::RED ."You've Moved", TextFormat::YELLOW ."Failed to refill your minecart energy!", 20 * 5);
+            unset(Minecarts::$isRecharging[$entity->getId()]);
+            $this->getHandler()->cancel();
+            return;
+        }
+
+        if ($this->currentEnergy < $amount) {
+            $this->currentEnergy += 1;
+            $player->sendTitle(TextFormat::BOLD . TextFormat::AQUA ."Don't Move", TextFormat::YELLOW ."Recharging minecart energy " . $this->currentEnergy . "%", 5, 5, 5);
+
+            if ($this->currentEnergy > $amount) {
+                $this->currentEnergy = $amount;
+            }
+
+            if ($this->currentEnergy === $amount) {
+                $player->sendMessage(TextFormat::GRAY ."[Gas Station] ".TextFormat::GREEN."Successfully charged your minecart energy to {$amount}% for {$price} $");
+                unset(Minecarts::$isRecharging[$entity->getId()]);
+                $entity->setEnergy($amount);
+                $economy = EconomyAPI::getInstance();
+                $economy->reduceMoney($player, $price);
+                $this->getHandler()->cancel();
+            }
+
+        }
+    }
 }

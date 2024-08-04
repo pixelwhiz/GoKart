@@ -43,7 +43,7 @@ class Minecart extends Living {
 
         Controller::shouldDrop($this);
         Controller::shouldDespawn($this);
-        Controller::updateFuel($this, self::$startPos);
+        Controller::updateEnergy($this, self::$startPos);
 
         $motion = Controller::getMotion($this);
         $motionX = $motion["x"];
@@ -64,7 +64,7 @@ class Minecart extends Living {
 
         Controller::shouldDrop($this);
         Controller::shouldDespawn($this);
-        Controller::updateFuel($this, self::$startPos);
+        Controller::updateEnergy($this, self::$startPos);
 
         $motion = Controller::getMotion($this);
         $motionX = -$motion["x"] / 2;
@@ -81,6 +81,7 @@ class Minecart extends Living {
     {
         $player = Minecarts::getInstance()->getRider($this);
         if ($player instanceof Player) {
+            if (Minecarts::getInstance()->isRecharging($this) === true) return false;
             $player->sendTip("Minecart Energy: ". (int)$this->getEnergy() . "%%");
             return true;
         }

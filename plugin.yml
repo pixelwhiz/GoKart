@@ -4,5 +4,11 @@ version: 1.0.0
 main: pixelwhiz\minecart\Main
 api: 5.0.0
 author: pixelwhiz
+depend:
+  - EconomyAPI
 src-namespace-prefix: pixelwhiz\minecart
+permissions:
+  gokart.cmd:
+    default: true
+    description: Allows players to use the /gokart command.
 ...

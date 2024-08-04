@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace pixelwhiz\minecart;
 
+use pixelwhiz\minecart\commands\GokartCommands;
 use pixelwhiz\minecart\entity\Minecart;
 use pixelwhiz\minecart\listeners\GasStationListener;
 use pixelwhiz\minecart\listeners\MinecartListener;
@@ -32,9 +33,8 @@ class Main extends PluginBase implements Listener {
         parent::onEnable();
         self::$instance = $this;
         Minecarts::init();
-        $this->config = new Config($this->getDataFolder() . "GasStation.json", Config::JSON);
+        Server::getInstance()->getCommandMap()->register("gokart", new GokartCommands());
         Server::getInstance()->getPluginManager()->registerEvents(new MinecartListener(), $this);
-        Server::getInstance()->getPluginManager()->registerEvents(new GasStationListener(), $this);
         EntityFactory::getInstance()->register(Minecart::class, function (World $world, CompoundTag $nbt): Entity {
             return new Minecart(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ["Minecart"]);

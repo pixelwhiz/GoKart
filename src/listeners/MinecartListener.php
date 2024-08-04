@@ -62,6 +62,7 @@ class MinecartListener implements Listener {
                         ];
                     }
 
+                    Minecarts::$isMoving[$entity->getId()] = true;
                     $entity->walk();
                 } else if ($isSPressed) {
                     if (count(array_filter($entity::$startPos, fn($value) => $value === null)) === 3) {
@@ -72,8 +73,10 @@ class MinecartListener implements Listener {
                         ];
                     }
 
+                    Minecarts::$isMoving[$entity->getId()] = true;
                     $entity->walkBackward();
                 } else if (!$isWPressed && !$isSPressed) {
+                    Minecarts::$isMoving[$entity->getId()] = false;
                     $entity::$startPos = [
                         "x" => null,
                         "y" => null,
