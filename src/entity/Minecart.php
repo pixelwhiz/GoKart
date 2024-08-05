@@ -4,7 +4,6 @@ namespace pixelwhiz\minecart\entity;
 
 use pixelwhiz\minecart\Minecarts;
 use pixelwhiz\minecart\utils\Controller;
-use pocketmine\block\Air;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Living;
 use pocketmine\math\Vector3;

@@ -6,9 +6,6 @@ use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
 use onebone\economyapi\EconomyAPI;
 use pixelwhiz\minecart\entity\Minecart;
-use pixelwhiz\minecart\Main;
-use pocketmine\block\Block;
-use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 

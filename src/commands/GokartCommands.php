@@ -6,7 +6,6 @@ use pixelwhiz\minecart\Minecarts;
 use pixelwhiz\minecart\utils\GasStation;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\lang\Translatable;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
