@@ -4,18 +4,18 @@
 [![Issues](https://img.shields.io/github/issues/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/issues)
 [![License](https://img.shields.io/github/license/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/blob/master/LICENSE)
 
-# GoKart Plugin
+# 🏎️ GoKart Plugin
 
 GoKart is a Minecraft plugin that allows players to ride and control custom minecarts with energy management and refueling mechanics. It integrates with the EconomyAPI for handling in-game currency transactions when refilling the minecart's energy.
 
-# Features
+# 🎉 Features
 
 - Ride and control minecarts.
 - Manage minecart energy levels.
 - Refuel minecarts at gas stations using in-game currency.
 - Handle minecart behavior with realistic physics, including jumping and movement adjustments.
 
-# Installation
+# ⚙️ Installation
 
 1. **Download the Plugin:**
    - Download the latest release from the [releases page](#).
@@ -26,16 +26,16 @@ GoKart is a Minecraft plugin that allows players to ride and control custom mine
 3. **Restart the Server:**
    - Restart your server to load the plugin.
 
-# Configuration
+# ⚙️ Configuration
 
 The plugin does not require any additional configuration out of the box. However, you can customize certain aspects of the plugin through the provided classes in the codebase.
 
-# Commands
+# 📣 Commands
 
 - **/gokart**
   - Opens the GoKart menu where players can interact with minecarts.
 
-# Interacting with Minecarts
+# 🚴‍♂️ Interacting with Minecarts
 
 1. **Ride a Minecart:**
    - Use a Minecart item from your inventory to mount and ride it.
@@ -43,7 +43,7 @@ The plugin does not require any additional configuration out of the box. However
 2. **Refuel Minecart:**
    - Use the command `/gokart recharge` to recharge your minecart entity.
 
-# API Reference
+# 🗒️ API Reference
 
 ## `Controller` Class
 
@@ -81,18 +81,18 @@ The plugin does not require any additional configuration out of the box. However
 - **`setEnergyNBT(Minecart $entity): CompoundTag`**
   - Sets the energy NBT tag for a minecart entity.
 
-# Contributing
+# 👥 Contributing
 
 Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a [Pull Request](https://github.com/pixelwhiz/GokartPro/compare) on this repository.
 
-# Reporting Bugs
+# ⚠️ Reporting Bugs
 
 If you encounter any bugs or issues, please report them on the [Issue](https://github.com/pixelwhiz/GokartPro/issues/new). Provide a detailed description of the issue, steps to reproduce, and any relevant logs.
 
-# License
+# 🪪 License
 
 This plugin is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-# Contact
+# ✉️ Contact
 
 For any questions or support, please contact me on [Discord](https://discordapp.com/users/591983759965028363).
