@@ -2,7 +2,7 @@
 [![Forks](https://img.shields.io/github/forks/pixelwhiz/Gokart)](https://github.com/pixelwhiz/GoKart/network/members)
 [![Stargazers](https://img.shields.io/github/stars/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/stargazers)
 [![Issues](https://img.shields.io/github/issues/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/issues)
-[![License](https://img.shields.io/github/license/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/blob/master/LICENSE)
 
 # GoKart Plugin
 
