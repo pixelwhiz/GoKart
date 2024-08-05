@@ -1,10 +1,11 @@
+# 🏎️ GoKart Plugin
+
 [![Contributors](https://img.shields.io/github/contributors/pixelwhiz/Gokart)](https://github.com/pixelwhiz/GoKart/graphs/contributors)
 [![Forks](https://img.shields.io/github/forks/pixelwhiz/Gokart)](https://github.com/pixelwhiz/GoKart/network/members)
 [![Stargazers](https://img.shields.io/github/stars/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/stargazers)
 [![Issues](https://img.shields.io/github/issues/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/issues)
 [![License](https://img.shields.io/github/license/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/blob/master/LICENSE)
-
-# 🏎️ GoKart Plugin
+[![](https://poggit.pmmp.io/shield.state/GoKart)](https://poggit.pmmp.io/p/GoKart)
 
 GoKart is a Minecraft plugin that allows players to ride and control minecarts with energy management and refueling mechanics. It integrates with the EconomyAPI for handling in-game currency transactions when refilling the minecart's energy.
 
@@ -96,10 +97,3 @@ This plugin is licensed under the MIT License. See the [LICENSE](LICENSE) file f
 # ✉️ Contact
 
 For any questions or support, please contact me on [Discord](https://discordapp.com/users/591983759965028363).
-
-
-[![](https://poggit.pmmp.io/shield.state/GoKart)](https://poggit.pmmp.io/p/GoKart)
-[![](https://poggit.pmmp.io/shield.api/GoKart)](https://poggit.pmmp.io/p/GoKart)
-
-<a href="https://poggit.pmmp.io/p/GoKart"><img src="https://poggit.pmmp.io/shield.api/GoKart"></a>
-<a href="https://poggit.pmmp.io/p/GoKart"><img src="https://poggit.pmmp.io/shield.state/GoKart"></a>
