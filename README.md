@@ -96,3 +96,10 @@ This plugin is licensed under the MIT License. See the [LICENSE](LICENSE) file f
 # ✉️ Contact
 
 For any questions or support, please contact me on [Discord](https://discordapp.com/users/591983759965028363).
+
+
+[![](https://poggit.pmmp.io/shield.state/GoKart)](https://poggit.pmmp.io/p/GoKart)
+[![](https://poggit.pmmp.io/shield.api/GoKart)](https://poggit.pmmp.io/p/GoKart)
+
+<a href="https://poggit.pmmp.io/p/GoKart"><img src="https://poggit.pmmp.io/shield.api/GoKart"></a>
+<a href="https://poggit.pmmp.io/p/GoKart"><img src="https://poggit.pmmp.io/shield.state/GoKart"></a>
