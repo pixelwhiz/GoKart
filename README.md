@@ -6,7 +6,7 @@
 
 # 🏎️ GoKart Plugin
 
-GoKart is a Minecraft plugin that allows players to ride and control custom minecarts with energy management and refueling mechanics. It integrates with the EconomyAPI for handling in-game currency transactions when refilling the minecart's energy.
+GoKart is a Minecraft plugin that allows players to ride and control minecarts with energy management and refueling mechanics. It integrates with the EconomyAPI for handling in-game currency transactions when refilling the minecart's energy.
 
 # 🎉 Features
 
