@@ -18,7 +18,7 @@ GoKart is a Minecraft plugin that allows players to ride and control minecarts w
 # ⚙️ Installation
 
 1. **Download the Plugin:**
-   - Download the latest release from the [releases page](#).
+   - Download the latest release from the [releases page](https://poggit.pmmp.io/ci/pixelwhiz/GoKart/~).
 
 2. **Place the Plugin:**
    - Move the `GoKart` plugin `.phar` file into the `plugins` directory of your Minecraft server.
