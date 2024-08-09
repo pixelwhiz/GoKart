@@ -224,7 +224,7 @@ class Controller {
     public static function refillEnergy(Minecart $entity, int $amount, int $price) {
         $player = $entity->getTargetEntity();
         if (!$player instanceof Player) return false;
-        Main::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillScheduler($entity, $amount, $price), 20);
+        Main::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillScheduler($entity, $amount, $price), 10);
         return true;
     }
 
