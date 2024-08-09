@@ -261,7 +261,10 @@ class RefillScheduler extends Task {
     public function onRun(): void
     {
         $player = $this->entity->getTargetEntity();
-        if (!$player instanceof Player) return;
+        if (!$player instanceof Player) {
+            $this->getHandler()->cancel();
+            return;
+        }
         $entity = $this->entity;
         $amount = $this->amount;
         $price = $this->price;
