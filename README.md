@@ -1,12 +1,13 @@
+# 🏎️ GoKart Plugin
+
 [![Contributors](https://img.shields.io/github/contributors/pixelwhiz/Gokart)](https://github.com/pixelwhiz/GoKart/graphs/contributors)
 [![Forks](https://img.shields.io/github/forks/pixelwhiz/Gokart)](https://github.com/pixelwhiz/GoKart/network/members)
 [![Stargazers](https://img.shields.io/github/stars/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/stargazers)
 [![Issues](https://img.shields.io/github/issues/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/issues)
 [![License](https://img.shields.io/github/license/pixelwhiz/GoKart)](https://github.com/pixelwhiz/GoKart/blob/master/LICENSE)
+[![](https://poggit.pmmp.io/shield.state/GoKart)](https://poggit.pmmp.io/p/GoKart)
 
-# 🏎️ GoKart Plugin
-
-GoKart is a Minecraft plugin that allows players to ride and control custom minecarts with energy management and refueling mechanics. It integrates with the EconomyAPI for handling in-game currency transactions when refilling the minecart's energy.
+GoKart is a Minecraft plugin that allows players to ride and control minecarts with energy management and refueling mechanics. It integrates with the EconomyAPI for handling in-game currency transactions when refilling the minecart's energy.
 
 # 🎉 Features
 
@@ -18,7 +19,7 @@ GoKart is a Minecraft plugin that allows players to ride and control custom mine
 # ⚙️ Installation
 
 1. **Download the Plugin:**
-   - Download the latest release from the [releases page](#).
+   - Download the latest release from the [releases page](https://poggit.pmmp.io/ci/pixelwhiz/GoKart/~).
 
 2. **Place the Plugin:**
    - Move the `GoKart` plugin `.phar` file into the `plugins` directory of your Minecraft server.
