@@ -97,3 +97,7 @@ This plugin is licensed under the MIT License. See the [LICENSE](LICENSE) file f
 # ✉️ Contact
 
 For any questions or support, please contact me on [Discord](https://discordapp.com/users/591983759965028363).
+
+# Preview
+
+[![Preview](https://github.com/pixelwhiz/GoKart/blob/master/screenshot.png)](https://www.youtube.com/watch?v=FDKSr_iaLzI&t=108s "Preview")
