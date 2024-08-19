@@ -53,7 +53,7 @@ class Minecarts {
         $player->getInventory()->setItemInHand(VanillaItems::AIR());
 
         $link = new SetActorLinkPacket();
-        $link->link = new EntityLink($entity->getId(), $player->getId(), EntityLink::TYPE_RIDER, true, true);
+        $link->link = new EntityLink($entity->getId(), $player->getId(), EntityLink::TYPE_RIDER, true, true, 1.0);
         $player->getNetworkProperties()->setVector3(EntityMetadataProperties::RIDER_SEAT_POSITION, new Vector3(0, $entity->getSize()->getHeight() + 0.25, 0));
         $player->getNetworkProperties()->setGenericFlag(EntityMetadataFlags::RIDING, true);
         $player->getNetworkProperties()->setGenericFlag(EntityMetadataFlags::SADDLED, true);
