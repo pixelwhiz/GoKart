@@ -26,11 +26,7 @@ GoKart is a Minecraft plugin that allows players to ride and control minecarts w
 
 3. **Restart the Server:**
    - Restart your server to load the plugin.
-
-# ⚙️ Configuration
-
-The plugin does not require any additional configuration out of the box. However, you can customize certain aspects of the plugin through the provided classes in the codebase.
-
+     
 # 📣 Commands
 
 - **/gokart**
