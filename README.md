@@ -43,46 +43,8 @@ The plugin does not require any additional configuration out of the box. However
 
 2. **Refuel Minecart:**
    - Use the command `/gokart recharge` to recharge your minecart entity.
-
-# 🗒️ API Reference
-
-## `Controller` Class
-
-- **`shouldJump(Minecart $entity): array`**
-  - Determines if the minecart should jump based on the current block and energy.
-
-- **`shouldDrop(Minecart $entity)`**
-  - Checks if the minecart should drop based on its current position (e.g., falling into water).
-
-- **`shouldDespawn(Minecart $entity)`**
-  - Determines if the minecart should despawn if it falls into lava.
-
-- **`getMotion(Minecart $entity): array`**
-  - Calculates the motion vector for the minecart based on the rider's direction and energy levels.
-
-- **`refillEnergy(Minecart $entity, int $amount, int $price)`**
-  - Refills the minecart's energy, adjusting the player’s balance accordingly.
-
-- **`updateEnergy(Minecart $entity, array $startPos): bool`**
-  - Updates the minecart's energy based on its movement from the start position.
-
-## `GasStation` Class
-
-- **`open(Player $player, Minecart $entity): CustomForm`**
-  - Opens the custom form for refueling the minecart.
-
-- **`confirm(Player $player, int $energy, int $amount): ModalForm`**
-  - Shows a confirmation form for refueling the minecart with the specified amount of energy.
-
-## `RandomUtils` Class
-
-- **`createBaseNBT(Vector3 $pos, ?Vector3 $motion = null, float $yaw = 0.0, float $pitch = 0.0): CompoundTag`**
-  - Creates the base NBT tag for a minecart entity with the given position, motion, and rotation.
-
-- **`setEnergyNBT(Minecart $entity): CompoundTag`**
-  - Sets the energy NBT tag for a minecart entity.
-
-# 👥 Contributing
+     
+# 👥 Contribute
 
 Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a [Pull Request](https://github.com/pixelwhiz/GokartPro/compare) on this repository.
 
