@@ -50,7 +50,6 @@ class GasStation {
         return $form;
     }
 
-
     public static function confirm(Player $player, int $energy, int $amount) : ModalForm {
         $form = new ModalForm(function (Player $player, bool $data = false) use ($energy, $amount) {
             if (!is_bool($data)) {

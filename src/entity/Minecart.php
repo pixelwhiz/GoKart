@@ -7,6 +7,7 @@ use pixelwhiz\minecart\utils\Controller;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Living;
 use pocketmine\math\Vector3;
+use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 
 class Minecart extends Living {
@@ -118,7 +119,7 @@ class Minecart extends Living {
 
     public static function getNetworkTypeId(): string
     {
-        return "minecraft:minecart";
+        return EntityIds::MINECART;
     }
 
 }
