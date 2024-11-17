@@ -24,9 +24,7 @@
 
 namespace pixelwhiz\gokart\utils;
 
-use pixelwhiz\gokart\Loader;
 use pixelwhiz\gokart\Gokarts;
-use pixelwhiz\gokart\task\RefillSchedulerTask;
 use pocketmine\block\Air;
 use pocketmine\block\Carpet;
 use pocketmine\block\Lava;
@@ -225,14 +223,6 @@ trait Controller {
         }
 
         return new Vector3($x, 0, $z);
-    }
-
-
-    public function refillEnergy(int $amount, int $price) {
-        $player = $this->getTargetEntity();
-        if (!$player instanceof Player) return false;
-        Loader::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillSchedulerTask($this, $amount, $price), 10);
-        return true;
     }
 
     public function updateEnergy(array $startPos) : bool {

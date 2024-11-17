@@ -58,7 +58,7 @@ class RefillSchedulerTask extends Task {
         Gokarts::$isRecharging[$entity->getId()] = true;
 
         if (Gokarts::getInstance()->isMoving($entity) === true) {
-            $player->sendTitle(TextFormat::BOLD . TextFormat::RED ."You've Moved", TextFormat::YELLOW ."Failed to refill your minecart energy!", 20 * 5);
+            $player->sendTitle(TextFormat::BOLD . TextFormat::RED ."You've Moved", TextFormat::YELLOW ."Failed to refill your gokart energy!", 20 * 5);
             unset(Gokarts::$isRecharging[$entity->getId()]);
             $this->getHandler()->cancel();
             return;
@@ -66,14 +66,14 @@ class RefillSchedulerTask extends Task {
 
         if ($this->currentEnergy < $amount) {
             $this->currentEnergy += 1;
-            $player->sendTitle(TextFormat::BOLD . TextFormat::AQUA ."Don't Move", TextFormat::YELLOW ."Recharging minecart energy " . $this->currentEnergy . "%", 5, 5, 5);
+            $player->sendTitle(TextFormat::BOLD . TextFormat::AQUA ."Don't Move", TextFormat::YELLOW ."Recharging gokart energy " . $this->currentEnergy . "%", 5, 5, 5);
 
             if ($this->currentEnergy > $amount) {
                 $this->currentEnergy = $amount;
             }
 
             if ($this->currentEnergy === $amount) {
-                $player->sendMessage(TextFormat::GRAY ."[Gas Station] ".TextFormat::GREEN."Successfully charged your minecart energy to {$amount}% for {$price} $");
+                $player->sendMessage(TextFormat::GRAY ."[Gas Station] ".TextFormat::GREEN."Successfully charged your gokart energy to {$amount}% for {$price} $");
                 unset(Gokarts::$isRecharging[$entity->getId()]);
                 $entity->setEnergy($amount);
                 $economy = EconomyAPI::getInstance();

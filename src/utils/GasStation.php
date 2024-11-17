@@ -28,6 +28,8 @@ use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
 use onebone\economyapi\EconomyAPI;
 use pixelwhiz\gokart\entity\GokartEntity;
+use pixelwhiz\gokart\Loader;
+use pixelwhiz\gokart\task\RefillSchedulerTask;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
@@ -85,7 +87,7 @@ class GasStation {
                 if ($money >= $price) {
                     $entity = $player->getTargetEntity();
                     if ($entity instanceof GokartEntity) {
-                        Controller::refillEnergy($entity, $amount, $price);
+                        self::refillEnergy($entity, $amount, $price);
                     } else {
                         $player->sendMessage(TextFormat::GRAY."[Gas Station]".TextFormat::YELLOW ."Failed to refill please use your minecart!");
                     }
@@ -114,6 +116,13 @@ class GasStation {
         $form->setButton2("Cancel");
         $form->sendToPlayer($player);
         return $form;
+    }
+
+    public static function refillEnergy(GokartEntity $entity, int $amount, int $price) {
+        $player = $entity->getTargetEntity();
+        if (!$player instanceof Player) return false;
+        Loader::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillSchedulerTask($entity, $amount, $price), 10);
+        return true;
     }
 
 }
