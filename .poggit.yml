@@ -3,7 +3,7 @@ build-by-default: true
 branches:
 - master
 projects:
-  GoKart:
+  go-karts:
     path: ""
     lint: false
     icon: "icon.png"
