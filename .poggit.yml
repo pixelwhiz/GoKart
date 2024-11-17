@@ -1,9 +1,9 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/pixelwhiz/go-karts
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/pixelwhiz/GoKart
 build-by-default: true
 branches:
 - master
 projects:
-  go-karts:
+  GoKart:
     path: ""
     lint: false
     icon: "icon.png"
