@@ -7,7 +7,6 @@ author: pixelwhiz
 website: https://github.com/pixelwhiz/GoKart.git
 depend:
   - EconomyAPI
-  - BedrockEconomy
 src-namespace-prefix: pixelwhiz\gokart
 permissions:
   gokart.cmd:
