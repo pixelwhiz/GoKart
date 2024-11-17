@@ -35,7 +35,7 @@ class GokartCommands extends Command {
 
     public function __construct()
     {
-        parent::__construct("gokart", "Recharge your minecart energy", TextFormat::GRAY."Usage: ".TextFormat::RED."/gokart recharge", [""]);
+        parent::__construct("gokart", "go-karts main commands.", TextFormat::GRAY."Usage: ".TextFormat::RED."/gokart recharge", [""]);
         $this->setPermission("gokart.cmd");
     }
 
