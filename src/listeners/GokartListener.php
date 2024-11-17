@@ -111,14 +111,23 @@ class GokartListener implements Listener {
 
     public function onDamage(EntityDamageEvent $event) {
         $entity = $event->getEntity();
-        if (!$entity instanceof GokartEntity) return false;
-        if ($event instanceof EntityDamageByEntityEvent) {
-            $damager = $event->getDamager();
-            if ($damager instanceof Player) {
-                Gokarts::getInstance()->unride($damager, $entity, true);
+        if ($entity instanceof GokartEntity) {
+            if ($event instanceof EntityDamageByEntityEvent) {
+                $damager = $event->getDamager();
+                if ($damager instanceof Player) {
+                    Gokarts::getInstance()->unride($damager, $entity, true);
+                }
+            }
+
+            $event->cancel();
+        }
+
+        if ($entity instanceof Player) {
+            if (Gokarts::getInstance()->isRiding($entity) and $event->getCause() === $event::CAUSE_FALL) {
+                $event->cancel();
             }
         }
-        $event->cancel();
+
         return true;
     }
 
