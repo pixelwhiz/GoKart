@@ -20,23 +20,23 @@
 3. **Restart the Server:**
 - Restart your server to load the plugin.
 
-#  Command & Permission
+# 📃 Command & Permission
 
 | Command | Description | Permission |  
 |----------------------|------------------------------------------------------------------------------------------------------------------------------|--------------|  
 | **/gokart recharge** | go-karts main commands. | `gokart.cmd` |  
 
 
-# Contribute
+# 🚀 Contribute
 
 Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a [Pull Request](https://github.com/pixelwhiz/GokartPro/compare) on this repository.
 
-# Issues
+# ⚠️ Issues
 
 If you found a bug or have any issues please report them [here](https://github.com/pixelwhiz/Gokart/issues/new)
 
-# Preview
+# 🎬 Preview
 
-🎬 Watch full preview [here](https://www.youtube.com/watch?v=FDKSr_iaLzI&t=108s)
+Watch full preview [here](https://www.youtube.com/watch?v=FDKSr_iaLzI&t=108s)
 
 ![preview1](https://github.com/pixelwhiz/Gokart/blob/master/assets/preview1.png)![preview2](https://github.com/pixelwhiz/Gokart/blob/master/assets/preview2.png)
