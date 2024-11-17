@@ -1,5 +1,5 @@
 ---
-name: Gokart
+name: GoKart
 version: 1.0.0
 main: pixelwhiz\gokart\Loader
 api: 5.0.0
