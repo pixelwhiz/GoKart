@@ -1,11 +1,32 @@
 <?php
 
-namespace pixelwhiz\minecart\utils;
+/*
+ *    _____       _              _
+ *   / ____|     | |            | |
+ *  | |  __  ___ | | ____ _ _ __| |_
+ *  | | |_ |/ _ \| |/ / _` | '__| __|
+ *  | |__| | (_) |   < (_| | |  | |_
+ *   \_____|\___/|_|\_\__,_|_|   \__|
+ *
+ * Copyright (C) 2024 pixelwhiz
+ *
+ * This software is distributed under "GNU General Public License v3.0".
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License v3.0
+ * along with this program. If not, see <https://opensource.org/licenses/GPL-3.0>.
+ */
 
-use onebone\economyapi\EconomyAPI;
-use pixelwhiz\minecart\entity\Minecart;
-use pixelwhiz\minecart\Main;
-use pixelwhiz\minecart\Minecarts;
+
+namespace pixelwhiz\gokart\utils;
+
+use pixelwhiz\gokart\Loader;
+use pixelwhiz\gokart\Gokarts;
+use pixelwhiz\gokart\task\RefillSchedulerTask;
 use pocketmine\block\Air;
 use pocketmine\block\Carpet;
 use pocketmine\block\Lava;
@@ -14,38 +35,37 @@ use pocketmine\block\Stair;
 use pocketmine\block\Water;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
-use pocketmine\scheduler\Task;
-use pocketmine\utils\TextFormat;
 use pocketmine\world\particle\SmokeParticle;
 use pocketmine\world\sound\FizzSound;
 
-class Controller {
-    public static function shouldJump(Minecart $entity) : array {
-        $currentX = $entity->getLocation()->x;
-        $futureY = $entity->getLocation()->y + 0.25;
-        $currentZ = $entity->getLocation()->z;
+trait Controller {
+    
+    public function shouldJump() : array {
+        $currentX = $this->getLocation()->x;
+        $futureY = $this->getLocation()->y + 0.25;
+        $currentZ = $this->getLocation()->z;
 
         $motion = ['x' => 0, 'y' => 0, 'z' => 0];
 
-        $pos = new Vector3($entity->getLocation()->getFloorX(), $entity->getLocation()->getFloorY() - 0.25, $entity->getLocation()->getFloorZ());
-        $block = $entity->getWorld()->getBlock($pos);
+        $pos = new Vector3($this->getLocation()->getFloorX(), $this->getLocation()->getFloorY() - 0.25, $this->getLocation()->getFloorZ());
+        $block = $this->getWorld()->getBlock($pos);
 
-        if ((int)$entity->getEnergy() === 0) {
+        if ((int)$this->getEnergy() === 0) {
             $motion['y'] = 0;
             return $motion;
         }
 
-        $floorY = $entity->getLocation()->getFloorY();
-        $floorBlock = $entity->getWorld()->getBlockAt(0, $floorY, 0);
+        $floorY = $this->getLocation()->getFloorY();
+        $floorBlock = $this->getWorld()->getBlockAt(0, $floorY, 0);
         if ($floorBlock instanceof Slab || $floorBlock instanceof Carpet || $block instanceof Air) {
             $motion['y'] = 0;
             return $motion;
         }
 
-        if ($entity->getLocation()->getX() > 0) {
+        if ($this->getLocation()->getX() > 0) {
             for ($dx = -1; $dx <= 1; $dx++) {
                 $futureX = $currentX + $dx;
-                $blockInFrontX = $entity->getWorld()->getBlockAt((int)$futureX, (int)$futureY, (int)$currentZ);
+                $blockInFrontX = $this->getWorld()->getBlockAt((int)$futureX, (int)$futureY, (int)$currentZ);
 
                 if (!$blockInFrontX->isTransparent()) {
                     $motion['y'] = 0.18;
@@ -67,10 +87,10 @@ class Controller {
                     break;
                 }
             }
-        } else if ($entity->getLocation()->getX() < 0) {
+        } else if ($this->getLocation()->getX() < 0) {
             for ($dx = -1.5; $dx <= -1; $dx++) {
                 $futureX = $currentX + $dx;
-                $blockInFrontX = $entity->getWorld()->getBlockAt((int)$futureX, (int)$futureY, (int)$currentZ);
+                $blockInFrontX = $this->getWorld()->getBlockAt((int)$futureX, (int)$futureY, (int)$currentZ);
 
                 if (!$blockInFrontX->isTransparent()) {
                     $motion['y'] = 0.18;
@@ -94,10 +114,10 @@ class Controller {
             }
         }
 
-        if ($entity->getLocation()->getZ() < 0) {
+        if ($this->getLocation()->getZ() < 0) {
             for ($dz = -1.5; $dz <= -1.5; $dz++) {
                 $futureZ = $currentZ + $dz;
-                $blockInFrontZ = $entity->getWorld()->getBlockAt((int)$currentX, (int)$futureY, (int)$futureZ);
+                $blockInFrontZ = $this->getWorld()->getBlockAt((int)$currentX, (int)$futureY, (int)$futureZ);
 
                 if (!$blockInFrontZ->isTransparent()) {
                     $motion['y'] = 0.18;
@@ -119,10 +139,10 @@ class Controller {
                     break;
                 }
             }
-        } elseif ($entity->getLocation()->getZ() > 0) {
+        } elseif ($this->getLocation()->getZ() > 0) {
             for ($dz = -1.5; $dz <= 1.5; $dz++) {
                 $futureZ = $currentZ + $dz;
-                $blockInFrontZ = $entity->getWorld()->getBlockAt((int)$currentX, (int)$futureY, (int)$futureZ);
+                $blockInFrontZ = $this->getWorld()->getBlockAt((int)$currentX, (int)$futureY, (int)$futureZ);
 
                 if (!$blockInFrontZ->isTransparent()) {
                     $motion['y'] = 0.18;
@@ -150,93 +170,80 @@ class Controller {
     }
 
 
-    public static function shouldDrop(Minecart $entity) {
-        $pos = $entity->getPosition();
-        if ($entity->getWorld()->getBlockAt((int)$pos->getX(), (int)$pos->getY(), (int)$pos->getZ()) instanceof Water) {
-            if ($player = Minecarts::getInstance()->getRider($entity)) {
-                Minecarts::getInstance()->unride($player, $entity);
+    public function shouldDrop() {
+        $pos = $this->getPosition();
+        if ($this->getWorld()->getBlockAt((int)$pos->getX(), (int)$pos->getY(), (int)$pos->getZ()) instanceof Water) {
+            if ($player = Gokarts::getInstance()->getRider($this)) {
+                Gokarts::getInstance()->unride($player, $this);
             }
         }
     }
 
-    public static function shouldDespawn(Minecart $entity) {
-        $pos = $entity->getPosition();
-        if ($entity->getWorld()->getBlockAt((int)$pos->getX(), (int)$pos->getY(), (int)$pos->getZ()) instanceof Lava) {
-            $entity->flagForDespawn();
-            $entity->getWorld()->addSound($pos->asVector3(), new FizzSound(), $entity->getWorld()->getPlayers());
-            $entity->getWorld()->addParticle($pos->asVector3(), new SmokeParticle(100), $entity->getWorld()->getPlayers());
+    public function shouldDespawn() {
+        $pos = $this->getPosition();
+        if ($this->getWorld()->getBlockAt((int)$pos->getX(), (int)$pos->getY(), (int)$pos->getZ()) instanceof Lava) {
+            $this->flagForDespawn();
+            $this->getWorld()->addSound($pos->asVector3(), new FizzSound(), $this->getWorld()->getPlayers());
+            $this->getWorld()->addParticle($pos->asVector3(), new SmokeParticle(100), $this->getWorld()->getPlayers());
         }
     }
 
-    public static function getMotion(Minecart $entity) : array {
-        $vector = [
-            "x" => 0,
-            "z" => 0,
-        ];
+    public function getGokartMotion(): Vector3 {
+        $x = 0;
+        $z = 0;
 
-        $player = $entity->getTargetEntity();
+        $player = $this->getTargetEntity();
         if ($player instanceof Player) {
             $direction = $player->getDirectionVector();
-            $energy = (int)$entity->getEnergy();
+            $energy = (int) $this->getEnergy();
 
-            // Adjust $vector based on energy levels
+            // Adjust $x and $z based on energy levels
             if ($energy <= 100) {
-                $vector = [
-                    "x" => $direction->getX() / 1.5,
-                    "z" => $direction->getZ() / 1.5,
-                ];
+                $x = $direction->getX() / 1.5;
+                $z = $direction->getZ() / 1.5;
             }
             if ($energy <= 80) {
-                $vector = [
-                    "x" => $direction->getX() / 1.75,
-                    "z" => $direction->getZ() / 1.75,
-                ];
+                $x = $direction->getX() / 1.75;
+                $z = $direction->getZ() / 1.75;
             }
             if ($energy <= 60) {
-                $vector = [
-                    "x" => $direction->getX() / 2.0,
-                    "z" => $direction->getZ() / 2.0,
-                ];
+                $x = $direction->getX() / 2.0;
+                $z = $direction->getZ() / 2.0;
             }
             if ($energy <= 40) {
-                $vector = [
-                    "x" => $direction->getX() / 2.25,
-                    "z" => $direction->getZ() / 2.25,
-                ];
+                $x = $direction->getX() / 2.25;
+                $z = $direction->getZ() / 2.25;
             }
             if ($energy <= 20) {
-                $vector = [
-                    "x" => $direction->getX() / 2.50,
-                    "z" => $direction->getZ() / 2.50,
-                ];
+                $x = $direction->getX() / 2.50;
+                $z = $direction->getZ() / 2.50;
             }
             if ($energy === 0) {
-                $vector = [
-                    "x" => 0,
-                    "z" => 0,
-                ];
+                $x = 0;
+                $z = 0;
             }
         }
 
-        return $vector;
+        return new Vector3($x, 0, $z);
     }
 
-    public static function refillEnergy(Minecart $entity, int $amount, int $price) {
-        $player = $entity->getTargetEntity();
+
+    public function refillEnergy(int $amount, int $price) {
+        $player = $this->getTargetEntity();
         if (!$player instanceof Player) return false;
-        Main::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillScheduler($entity, $amount, $price), 10);
+        Loader::getInstance()->getScheduler()->scheduleRepeatingTask(new RefillSchedulerTask($this, $amount, $price), 10);
         return true;
     }
 
-    public static function updateEnergy(Minecart $entity, array $startPos) : bool {
+    public function updateEnergy(array $startPos) : bool {
         if (is_null($startPos["x"]) || is_null($startPos["y"]) || is_null($startPos["z"])) {
             return false;
         }
 
         $startPosition = new Vector3($startPos["x"], $startPos["y"], $startPos["z"]);
-        $currentPosition = $entity->getPosition();
+        $currentPosition = $this->getPosition();
         $distanceTravelled = $startPosition->distance($currentPosition);
-        $entity->setEnergy($entity->getEnergy() - $distanceTravelled / 50000);
+        $this->setEnergy($this->getEnergy() - $distanceTravelled / 50000);
 
         return true;
     }
@@ -244,56 +251,3 @@ class Controller {
 
 }
 
-class RefillScheduler extends Task {
-
-    private Minecart $entity;
-    private int $amount;
-    private int $price;
-    private int $currentEnergy;
-
-    public function __construct(Minecart $entity, int $amount, int $price) {
-        $this->entity = $entity;
-        $this->amount = $amount;
-        $this->price = $price;
-        $this->currentEnergy = (int)$entity->getEnergy();
-    }
-
-    public function onRun(): void
-    {
-        $player = $this->entity->getTargetEntity();
-        if (!$player instanceof Player) {
-            $this->getHandler()->cancel();
-            return;
-        }
-        $entity = $this->entity;
-        $amount = $this->amount;
-        $price = $this->price;
-        Minecarts::$isRecharging[$entity->getId()] = true;
-
-        if (Minecarts::getInstance()->isMoving($entity) === true) {
-            $player->sendTitle(TextFormat::BOLD . TextFormat::RED ."You've Moved", TextFormat::YELLOW ."Failed to refill your minecart energy!", 20 * 5);
-            unset(Minecarts::$isRecharging[$entity->getId()]);
-            $this->getHandler()->cancel();
-            return;
-        }
-
-        if ($this->currentEnergy < $amount) {
-            $this->currentEnergy += 1;
-            $player->sendTitle(TextFormat::BOLD . TextFormat::AQUA ."Don't Move", TextFormat::YELLOW ."Recharging minecart energy " . $this->currentEnergy . "%", 5, 5, 5);
-
-            if ($this->currentEnergy > $amount) {
-                $this->currentEnergy = $amount;
-            }
-
-            if ($this->currentEnergy === $amount) {
-                $player->sendMessage(TextFormat::GRAY ."[Gas Station] ".TextFormat::GREEN."Successfully charged your minecart energy to {$amount}% for {$price} $");
-                unset(Minecarts::$isRecharging[$entity->getId()]);
-                $entity->setEnergy($amount);
-                $economy = EconomyAPI::getInstance();
-                $economy->reduceMoney($player, $price);
-                $this->getHandler()->cancel();
-            }
-
-        }
-    }
-}

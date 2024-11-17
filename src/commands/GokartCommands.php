@@ -1,9 +1,31 @@
 <?php
 
-namespace pixelwhiz\minecart\commands;
+/*
+ *    _____       _              _
+ *   / ____|     | |            | |
+ *  | |  __  ___ | | ____ _ _ __| |_
+ *  | | |_ |/ _ \| |/ / _` | '__| __|
+ *  | |__| | (_) |   < (_| | |  | |_
+ *   \_____|\___/|_|\_\__,_|_|   \__|
+ *
+ * Copyright (C) 2024 pixelwhiz
+ *
+ * This software is distributed under "GNU General Public License v3.0".
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License v3.0
+ * along with this program. If not, see <https://opensource.org/licenses/GPL-3.0>.
+ */
 
-use pixelwhiz\minecart\Minecarts;
-use pixelwhiz\minecart\utils\GasStation;
+
+namespace pixelwhiz\gokart\commands;
+
+use pixelwhiz\gokart\Gokarts;
+use pixelwhiz\gokart\utils\GasStation;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
@@ -27,7 +49,7 @@ class GokartCommands extends Command {
         }
         
         if ($args[0] === "recharge") {
-            $entity = Minecarts::getInstance()->getMinecart($sender);
+            $entity = Gokarts::getInstance()->getMinecart($sender);
             if ($entity === null) {
                 $sender->sendMessage(TextFormat::RED."You must be in a minecart to use this command!");
                 return false;

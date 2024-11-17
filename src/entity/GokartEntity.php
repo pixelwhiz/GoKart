@@ -1,16 +1,40 @@
 <?php
 
-namespace pixelwhiz\minecart\entity;
+/*
+ *    _____       _              _
+ *   / ____|     | |            | |
+ *  | |  __  ___ | | ____ _ _ __| |_
+ *  | | |_ |/ _ \| |/ / _` | '__| __|
+ *  | |__| | (_) |   < (_| | |  | |_
+ *   \_____|\___/|_|\_\__,_|_|   \__|
+ *
+ * Copyright (C) 2024 pixelwhiz
+ *
+ * This software is distributed under "GNU General Public License v3.0".
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License v3.0
+ * along with this program. If not, see <https://opensource.org/licenses/GPL-3.0>.
+ */
 
-use pixelwhiz\minecart\Minecarts;
-use pixelwhiz\minecart\utils\Controller;
+
+namespace pixelwhiz\gokart\entity;
+
+use pixelwhiz\gokart\Gokarts;
+use pixelwhiz\gokart\utils\Controller;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Living;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 
-class Minecart extends Living {
+class GokartEntity extends Living {
+
+    use Controller;
 
     public static float $energy = 0;
 
@@ -39,18 +63,17 @@ class Minecart extends Living {
         $player = $this->getTargetEntity();
         if (!$player instanceof Player) return false;
         $this->location->yaw = $player->getLocation()->getYaw() + 90;
-        $this->location->pitch = $player->getLocation()->getPitch();
 
-        Controller::shouldDrop($this);
-        Controller::shouldDespawn($this);
-        Controller::updateEnergy($this, self::$startPos);
+        $this->shouldDrop();
+        $this->shouldDespawn();
+        $this->updateEnergy(self::$startPos);
 
-        $motion = Controller::getMotion($this);
-        $motionX = $motion["x"];
-        $motionZ = $motion["z"];
+        $motion = $this->getGokartMotion();
+        $motionX = $motion->getX();
+        $motionZ = $motion->getZ();
 
         $this->move($motionX, 0, $motionZ);
-        $this->addMotion(0, Controller::shouldJump($this)["y"], 0);
+        $this->addMotion(0, $this->shouldJump()["y"], 0);
 
         return true;
     }
@@ -62,27 +85,26 @@ class Minecart extends Living {
         $this->location->pitch = $player->getLocation()->getPitch();
         $direction = $player->getDirectionVector();
 
-        Controller::shouldDrop($this);
-        Controller::shouldDespawn($this);
-        Controller::updateEnergy($this, self::$startPos);
+        $this->shouldDrop();
+        $this->shouldDespawn();
+        $this->updateEnergy(self::$startPos);
 
-        $motion = Controller::getMotion($this);
-        $motionX = -$motion["x"] / 2;
-        $motionZ = -$motion["z"] / 2;
+        $motion = $this->getGokartMotion();
+        $motionX = -$motion->getX() / 2;
+        $motionZ = -$motion->getZ() / 2;
 
         $this->move($motionX, 0, $motionZ);
-        $this->addMotion(0, Controller::shouldJump($this)["y"], 0);
-
+        $this->addMotion(0, $this->shouldJump($this)["y"], 0);
 
         return true;
     }
 
     protected function entityBaseTick(int $tickDiff = 1): bool
     {
-        $player = Minecarts::getInstance()->getRider($this);
+        $player = Gokarts::getInstance()->getRider($this);
         if ($player instanceof Player) {
-            if (Minecarts::getInstance()->isRecharging($this) === true) return false;
-            $player->sendTip("Minecart Energy: ". (int)$this->getEnergy() . "%%");
+            if (Gokarts::getInstance()->isRecharging($this) === true) return false;
+            $player->sendTip("Gokart Energy: ". (int)$this->getEnergy() . "%%");
             return true;
         }
         return false;
@@ -95,7 +117,7 @@ class Minecart extends Living {
 
     public function getName(): string
     {
-        return "Minecart";
+        return "GokartEntity";
     }
 
     public function getScale(): float

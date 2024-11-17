@@ -1,8 +1,30 @@
 <?php
 
-namespace pixelwhiz\minecart\utils;
+/*
+ *    _____       _              _
+ *   / ____|     | |            | |
+ *  | |  __  ___ | | ____ _ _ __| |_
+ *  | | |_ |/ _ \| |/ / _` | '__| __|
+ *  | |__| | (_) |   < (_| | |  | |_
+ *   \_____|\___/|_|\_\__,_|_|   \__|
+ *
+ * Copyright (C) 2024 pixelwhiz
+ *
+ * This software is distributed under "GNU General Public License v3.0".
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License v3.0
+ * along with this program. If not, see <https://opensource.org/licenses/GPL-3.0>.
+ */
 
-use pixelwhiz\minecart\entity\Minecart;
+
+namespace pixelwhiz\gokart\utils;
+
+use pixelwhiz\gokart\entity\GokartEntity;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
@@ -29,7 +51,7 @@ class RandomUtils {
             ]));
     }
 
-    public static function setEnergyNBT(Minecart $entity) : CompoundTag {
+    public static function setEnergyNBT(GokartEntity $entity) : CompoundTag {
         return CompoundTag::create()->setFloat("Energy", $entity->getEnergy());
     }
 

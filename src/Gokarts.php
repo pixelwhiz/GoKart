@@ -1,14 +1,34 @@
 <?php
 
-namespace pixelwhiz\minecart;
+/*
+ *    _____       _              _
+ *   / ____|     | |            | |
+ *  | |  __  ___ | | ____ _ _ __| |_
+ *  | | |_ |/ _ \| |/ / _` | '__| __|
+ *  | |__| | (_) |   < (_| | |  | |_
+ *   \_____|\___/|_|\_\__,_|_|   \__|
+ *
+ * Copyright (C) 2024 pixelwhiz
+ *
+ * This software is distributed under "GNU General Public License v3.0".
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License v3.0
+ * along with this program. If not, see <https://opensource.org/licenses/GPL-3.0>.
+ */
 
-use pixelwhiz\minecart\entity\Minecart;
-use pixelwhiz\minecart\items\AutoMinecart;
-use pixelwhiz\minecart\utils\RandomUtils;
-use pocketmine\block\VanillaBlocks;
+
+namespace pixelwhiz\gokart;
+
+use pixelwhiz\gokart\entity\GokartEntity;
+use pixelwhiz\gokart\items\AutoGokart;
+use pixelwhiz\gokart\utils\RandomUtils;
 use pocketmine\item\VanillaItems;
 use pocketmine\math\Vector3;
-use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\NetworkBroadcastUtils;
 use pocketmine\network\mcpe\protocol\SetActorLinkPacket;
 use pocketmine\network\mcpe\protocol\types\entity\EntityLink;
@@ -18,7 +38,7 @@ use pocketmine\player\Player;
 use pocketmine\item\Minecart as PMMinecart;
 use pocketmine\world\sound\PopSound;
 
-class Minecarts {
+class Gokarts {
 
     public static self $instance;
 
@@ -38,7 +58,7 @@ class Minecarts {
 
     public function ride(Player $player, PMMinecart $item) {
         $nbt = RandomUtils::createBaseNBT($player->getPosition());
-        $entity = new Minecart($player->getLocation(), $nbt);
+        $entity = new GokartEntity($player->getLocation(), $nbt);
         $entity->addMotion(0, 0.25, 0);
         $player->setTargetEntity($entity);
         $entity->setTargetEntity($player);
@@ -61,7 +81,7 @@ class Minecarts {
         NetworkBroadcastUtils::broadcastPackets($player->getWorld()->getPlayers(), [$link]);
     }
 
-    public function unride(Player $player = null, Minecart $entity, bool $isClose = false) {
+    public function unride(Player $player = null, GokartEntity $entity, bool $isClose = false) {
         if ($isClose === false) {
             $entity->flagForDespawn();
         } elseif ($isClose === true) {
@@ -75,7 +95,7 @@ class Minecarts {
         $player->setTargetEntity(null);
         $nbt = RandomUtils::setEnergyNBT($entity);
         $item->setNamedTag($nbt);
-        if (AutoMinecart::isHoldAir($player)) {
+        if (AutoGokart::isHoldAir($player)) {
             $player->getInventory()->setItemInHand($item);
         } else {
             $pos = $entity->getPosition()->asVector3();
@@ -86,30 +106,30 @@ class Minecarts {
 
     public function isRiding(Player $player) : bool {
         $entity = $player->getTargetEntity();
-        if (!$entity instanceof Minecart) return false;
+        if (!$entity instanceof GokartEntity) return false;
         return true;
     }
 
-    public function getMinecart(Player $player) : ?Minecart {
+    public function getMinecart(Player $player) : ?GokartEntity {
         $entity = $player->getTargetEntity();
-        if (!$entity instanceof Minecart) return null;
+        if (!$entity instanceof GokartEntity) return null;
         return $entity;
     }
 
-    public function getRider(Minecart $entity) : ?Player {
+    public function getRider(GokartEntity $entity) : ?Player {
         $player = $entity->getTargetEntity();
         if (!$player instanceof Player) return null;
         return $player;
     }
 
-    public function isMoving(Minecart $entity) : bool {
+    public function isMoving(GokartEntity $entity) : bool {
         if (!isset(self::$isMoving[$entity->getId()]) || self::$isMoving[$entity->getId()] === false) {
             return false;
         }
         return true;
     }
 
-    public function isRecharging(Minecart $entity) : bool {
+    public function isRecharging(GokartEntity $entity) : bool {
         if (!isset(self::$isRecharging[$entity->getId()]) || self::$isRecharging[$entity->getId()] === false) {
             return false;
         }

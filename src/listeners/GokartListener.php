@@ -1,32 +1,50 @@
 <?php
 
-namespace pixelwhiz\minecart\listeners;
+/*
+ *    _____       _              _
+ *   / ____|     | |            | |
+ *  | |  __  ___ | | ____ _ _ __| |_
+ *  | | |_ |/ _ \| |/ / _` | '__| __|
+ *  | |__| | (_) |   < (_| | |  | |_
+ *   \_____|\___/|_|\_\__,_|_|   \__|
+ *
+ * Copyright (C) 2024 pixelwhiz
+ *
+ * This software is distributed under "GNU General Public License v3.0".
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License v3.0
+ * along with this program. If not, see <https://opensource.org/licenses/GPL-3.0>.
+ */
 
-use pixelwhiz\minecart\entity\Minecart;
-use pixelwhiz\minecart\items\AutoMinecart;
-use pixelwhiz\minecart\Minecarts;
-use pocketmine\event\block\BlockPlaceEvent;
+
+namespace pixelwhiz\gokart\listeners;
+
+use pixelwhiz\gokart\entity\GokartEntity;
+use pixelwhiz\gokart\Gokarts;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\item\Minecart as MinecartItem;
-use pocketmine\item\VanillaItems;
 use pocketmine\network\mcpe\protocol\InteractPacket;
 use pocketmine\network\mcpe\protocol\PlayerAuthInputPacket;
 use pocketmine\player\Player;
 
-class MinecartListener implements Listener {
+class GokartListener implements Listener {
 
     public function onUse(PlayerItemUseEvent $event) {
         $player = $event->getPlayer();
         $item = $event->getItem();
         if ($item instanceof MinecartItem) {
-            if (Minecarts::getInstance()->isRiding($player) === true) return false;
-            Minecarts::getInstance()->ride($player, $item);
+            if (Gokarts::getInstance()->isRiding($player) === true) return false;
+            Gokarts::getInstance()->ride($player, $item);
             $event->cancel();
         }
 
@@ -38,7 +56,7 @@ class MinecartListener implements Listener {
         $player = $event->getOrigin()->getPlayer();
         if ($packet instanceof PlayerAuthInputPacket) {
 
-            if (!Minecarts::getInstance()->isRiding($player)) {
+            if (!Gokarts::getInstance()->isRiding($player)) {
                 return false;
             }
 
@@ -46,13 +64,10 @@ class MinecartListener implements Listener {
             $moveVecZ = $packet->getMoveVecZ();
 
             $isWPressed = $moveVecZ > 0.0;
-
-            $isAPressed = $moveVecX < 0.0;
             $isSPressed = $moveVecZ < 0.0;
-            $isDPressed = $moveVecX > 0.0;
 
             $entity = $player->getTargetEntity();
-            if ($entity instanceof Minecart) {
+            if ($entity instanceof GokartEntity) {
                 if ($isWPressed) {
                     if (count(array_filter($entity::$startPos, fn($value) => $value === null)) === 3) {
                         $entity::$startPos = [
@@ -62,7 +77,7 @@ class MinecartListener implements Listener {
                         ];
                     }
 
-                    Minecarts::$isMoving[$entity->getId()] = true;
+                    Gokarts::$isMoving[$entity->getId()] = true;
                     $entity->walk();
                 } else if ($isSPressed) {
                     if (count(array_filter($entity::$startPos, fn($value) => $value === null)) === 3) {
@@ -73,10 +88,10 @@ class MinecartListener implements Listener {
                         ];
                     }
 
-                    Minecarts::$isMoving[$entity->getId()] = true;
+                    Gokarts::$isMoving[$entity->getId()] = true;
                     $entity->walkBackward();
                 } else if (!$isWPressed && !$isSPressed) {
-                    Minecarts::$isMoving[$entity->getId()] = false;
+                    Gokarts::$isMoving[$entity->getId()] = false;
                     $entity::$startPos = [
                         "x" => null,
                         "y" => null,
@@ -87,8 +102,8 @@ class MinecartListener implements Listener {
         }
 
         if ($packet instanceof InteractPacket) {
-            if ($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE && Minecarts::getInstance()->isRiding($player)) {
-                Minecarts::getInstance()->unride($player, Minecarts::getInstance()->getMinecart($player));
+            if ($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE && Gokarts::getInstance()->isRiding($player)) {
+                Gokarts::getInstance()->unride($player, Gokarts::getInstance()->getMinecart($player));
             }
         }
         return true;
@@ -96,11 +111,11 @@ class MinecartListener implements Listener {
 
     public function onDamage(EntityDamageEvent $event) {
         $entity = $event->getEntity();
-        if (!$entity instanceof Minecart) return false;
+        if (!$entity instanceof GokartEntity) return false;
         if ($event instanceof EntityDamageByEntityEvent) {
             $damager = $event->getDamager();
             if ($damager instanceof Player) {
-                Minecarts::getInstance()->unride($damager, $entity, true);
+                Gokarts::getInstance()->unride($damager, $entity, true);
             }
         }
         $event->cancel();
@@ -111,7 +126,7 @@ class MinecartListener implements Listener {
 
     public function onQuit(PlayerQuitEvent $event) {
         $player = $event->getPlayer();
-        if (Minecarts::getInstance()->isRiding($player)) Minecarts::getInstance()->unride($player, Minecarts::getInstance()->getMinecart($player));
+        if (Gokarts::getInstance()->isRiding($player)) Gokarts::getInstance()->unride($player, Gokarts::getInstance()->getMinecart($player));
     }
 
 }

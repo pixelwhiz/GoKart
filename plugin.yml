@@ -1,13 +1,14 @@
 ---
-name: GoKart
+name: Gokart
 version: 1.0.0
-main: pixelwhiz\minecart\Main
+main: pixelwhiz\gokart\Loader
 api: 5.0.0
 author: pixelwhiz
 website: https://github.com/pixelwhiz/GoKart.git
 depend:
   - EconomyAPI
-src-namespace-prefix: pixelwhiz\minecart
+  - BedrockEconomy
+src-namespace-prefix: pixelwhiz\gokart
 permissions:
   gokart.cmd:
     default: true
